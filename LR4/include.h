@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <string>
 #include <fstream>
 
@@ -106,11 +106,11 @@ public:
 	}
 
 	operator float() const {
-		return static_cast<float>(*numerator) / static_cast<float>(*denominator); //static_cast - преобразователь числового типа
+		return static_cast<float>(*numerator) / static_cast<float>(*denominator); //static_cast - РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚РµР»СЊ С‡РёСЃР»РѕРІРѕРіРѕ С‚РёРїР°
 	}
 
 	FractionNumber& operator=(const FractionNumber& otherFraction) {
-		if (this != &otherFraction) { //делаем проверку чтобы оператор объект не присваивался сам себе, если этого не происходит, то мы освобождаем память, чтобы не потерять ссылки на уже выделенные участки памяти.
+		if (this != &otherFraction) { //РґРµР»Р°РµРј РїСЂРѕРІРµСЂРєСѓ С‡С‚РѕР±С‹ РѕРїРµСЂР°С‚РѕСЂ РѕР±СЉРµРєС‚ РЅРµ РїСЂРёСЃРІР°РёРІР°Р»СЃСЏ СЃР°Рј СЃРµР±Рµ, РµСЃР»Рё СЌС‚РѕРіРѕ РЅРµ РїСЂРѕРёСЃС…РѕРґРёС‚, С‚Рѕ РјС‹ РѕСЃРІРѕР±РѕР¶РґР°РµРј РїР°РјСЏС‚СЊ, С‡С‚РѕР±С‹ РЅРµ РїРѕС‚РµСЂСЏС‚СЊ СЃСЃС‹Р»РєРё РЅР° СѓР¶Рµ РІС‹РґРµР»РµРЅРЅС‹Рµ СѓС‡Р°СЃС‚РєРё РїР°РјСЏС‚Рё.
 			delete numerator;
 			delete denominator;
 
@@ -122,13 +122,13 @@ public:
 
 	//LR 3
 	// 
-	//Перегрузка оператора вывода
+	//РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° РІС‹РІРѕРґР°
 
 	friend std::ostream& operator<< (std::ostream& os, const FractionNumber& otherFraction) {
 		os << *otherFraction.numerator << "/" << *otherFraction.denominator << std::endl;
 		return os;
 	}
-	//Перегрузка оператора ввода
+	//РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° РІРІРѕРґР°
 	friend std::istream& operator>> (std::istream& is, FractionNumber& otherFraction) {
 		int num, denom;
 		char slash;
@@ -138,7 +138,7 @@ public:
 		return is;
 	}
 
-	//Сохранение в файл
+	//РЎРѕС…СЂР°РЅРµРЅРёРµ РІ С„Р°Р№Р»
 	void saveToFile(const std::string& filename) const {
 		std::ofstream file(filename);
 		if (file.is_open()) {
@@ -151,7 +151,7 @@ public:
 		}
 	}
 
-	//Чтение из файла
+	//Р§С‚РµРЅРёРµ РёР· С„Р°Р№Р»Р°
 	void loadFromFile(const std::string& filename) {
 		std::ifstream file(filename);
 		if (file.is_open()) {
@@ -167,7 +167,7 @@ public:
 		}
 	}
 
-	//Сохранение в двоичный файл
+	//РЎРѕС…СЂР°РЅРµРЅРёРµ РІ РґРІРѕРёС‡РЅС‹Р№ С„Р°Р№Р»
 	void saveToBinaryFile(const std::string& filename) const {
 		std::ofstream file(filename, std::ios::binary);
 		if (file.is_open()) {
@@ -181,7 +181,7 @@ public:
 		}
 	}
 
-	//Загрузка из двоичного файла
+	//Р—Р°РіСЂСѓР·РєР° РёР· РґРІРѕРёС‡РЅРѕРіРѕ С„Р°Р№Р»Р°
 	void loadFromBinaryFile(const std::string& filename) {
 		std::ifstream file(filename, std::ios::binary);
 		if (file.is_open()) {
@@ -199,7 +199,7 @@ int FractionNumber::operationsCount = 0;
 
 
 
-// Производный класс CalculatedFraction
+// РџСЂРѕРёР·РІРѕРґРЅС‹Р№ РєР»Р°СЃСЃ CalculatedFraction
 class CalculatedFraction : public FractionNumber {
 private:
 	float result;
@@ -217,7 +217,7 @@ public:
 	}
 };
 
-// Производный класс MixedFraction
+// РџСЂРѕРёР·РІРѕРґРЅС‹Р№ РєР»Р°СЃСЃ MixedFraction
 class MixedFraction : public FractionNumber {
 private:
 	int wholePart;
