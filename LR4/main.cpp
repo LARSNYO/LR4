@@ -1,4 +1,4 @@
-#include "include.h"
+ï»¿#include "include.h"
 
 int main() {
 
@@ -15,7 +15,7 @@ int main() {
     std::cout << "Mixed Fraction: ";
     mixedFraction.display();
 
-    // Êîïèðîâàíèå îáúåêòîâ
+    // ÐšÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð¾Ð±ÑŠÐµÐºÑ‚Ð¾Ð²
     FractionNumber copiedFraction = fraction1;
     CalculatedFraction copiedCalcFraction = calcFraction;
     MixedFraction copiedMixedFraction = mixedFraction;
