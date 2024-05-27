@@ -15,7 +15,11 @@ private:
 public:
 
 	//Consturctor with parameters
-	FractionNumber(int num, int denom) : numerator(new int(num)), denominator(new int(denom)) {}
+	FractionNumber(int num, int denom) : numerator(new int(num)), denominator(new int(denom)) {
+		if (denom == 0) {
+			throw std::invalid_argument("Denominator cannot be zero.");
+		}
+	}
 
 
 	//Copy constructor
@@ -34,7 +38,7 @@ public:
 	}
 
 
-	FractionNumber add(const FractionNumber& otherFraction) {
+	FractionNumber add(const FractionNumber& otherFraction) const {
 		int resultNum = *numerator * (*otherFraction.denominator) + (*otherFraction.numerator) * *denominator;
 		int resultDenom = *denominator * (*otherFraction.denominator);
 		FractionNumber::operationsCount++;
@@ -42,7 +46,7 @@ public:
 	}
 
 
-	FractionNumber subtract(const FractionNumber& otherFraction) {
+	FractionNumber subtract(const FractionNumber& otherFraction) const {
 		int resultNum = *numerator * (*otherFraction.denominator) - (*otherFraction.numerator) * *denominator;
 		int resultDenom = *denominator * (*otherFraction.denominator);
 		FractionNumber::operationsCount++;
@@ -50,7 +54,7 @@ public:
 	}
 
 
-	FractionNumber multiply(const FractionNumber& otherFraction) {
+	FractionNumber multiply(const FractionNumber& otherFraction) const {
 		int resultNum = *numerator * (*otherFraction.numerator);
 		int resultDenom = *denominator * (*otherFraction.denominator);
 		FractionNumber::operationsCount++;
@@ -58,7 +62,10 @@ public:
 	}
 
 
-	FractionNumber divide(const FractionNumber& otherFraction) {
+	FractionNumber divide(const FractionNumber& otherFraction) const {
+		if (*otherFraction.numerator == 0) {
+			throw std::invalid_argument("Division by zero.");
+		}
 		int resultNum = *numerator * (*otherFraction.denominator);
 		int resultDenom = *denominator * (*otherFraction.numerator);
 		FractionNumber::operationsCount++;
@@ -66,7 +73,7 @@ public:
 	}
 
 
-	void display() {
+	void display() const {
 		std::cout << *numerator << "/" << *denominator << std::endl;
 	}
 
@@ -78,17 +85,11 @@ public:
 	//LR2
 
 	FractionNumber operator+(const FractionNumber& otherFraction) const {
-		int resultNum = *numerator * (*otherFraction.denominator) + (*otherFraction.numerator) * *denominator;
-		int resultDenom = *denominator * (*otherFraction.denominator);
-		FractionNumber::operationsCount++;
-		return FractionNumber(resultNum, resultDenom);
+		return add(otherFraction);
 	}
 
 	FractionNumber operator-(const FractionNumber& otherFraction) const {
-		int resultNum = *numerator * (*otherFraction.denominator) - (*otherFraction.numerator) * *denominator;
-		int resultDenom = *denominator * (*otherFraction.denominator);
-		FractionNumber::operationsCount++;
-		return FractionNumber(resultNum, resultDenom);
+		return subtract(otherFraction);
 	}
 
 	friend FractionNumber operator+(int value, const FractionNumber& otherFraction) {
@@ -123,7 +124,6 @@ public:
 	//LR 3
 	// 
 	//Перегрузка оператора вывода
-
 	friend std::ostream& operator<< (std::ostream& os, const FractionNumber& otherFraction) {
 		os << *otherFraction.numerator << "/" << *otherFraction.denominator << std::endl;
 		return os;
@@ -133,6 +133,9 @@ public:
 		int num, denom;
 		char slash;
 		is >> num >> slash >> denom;
+		if (denom == 0) {
+			throw std::invalid_argument("Denominator cannot be zero.");
+		}
 		otherFraction = FractionNumber(num, denom);
 		FractionNumber::operationsCount++;
 		return is;
@@ -158,6 +161,9 @@ public:
 			int num, denom;
 			char slash;
 			file >> num >> slash >> denom;
+			if (denom == 0) {
+				throw std::invalid_argument("Denominator cannot be zero.");
+			}
 			*numerator = num;
 			*denominator = denom;
 			file.close();
@@ -195,8 +201,8 @@ public:
 	}
 
 };
-int FractionNumber::operationsCount = 0;
 
+int FractionNumber::operationsCount = 0;
 
 
 // Производный класс CalculatedFraction
@@ -211,7 +217,7 @@ public:
 		return result;
 	}
 
-	void display() {
+	void display() const {
 		FractionNumber::display();
 		std::cout << "Result: " << result << std::endl;
 	}
@@ -225,7 +231,7 @@ private:
 public:
 	MixedFraction(int whole, int num, int denom) : FractionNumber(num, denom), wholePart(whole) {}
 
-	void display() {
+	void display() const {
 		std::cout << wholePart << " ";
 		FractionNumber::display();
 	}
