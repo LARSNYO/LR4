@@ -2,15 +2,12 @@
 #include <string>
 #include <fstream>
 
-
 class FractionNumber {
-
 
 private:
 	int* numerator;
 	int* denominator;
 	static int operationsCount;
-
 
 public:
 
@@ -21,14 +18,11 @@ public:
 		}
 	}
 
-
 	//Copy constructor
 	FractionNumber(const FractionNumber& otherFraction) : numerator(new int(*otherFraction.numerator)), denominator(new int(*otherFraction.denominator)) {}
 
-
 	////Default Constructor
 	FractionNumber() : FractionNumber(5, 9) {}
-
 
 	//Destructor
 	~FractionNumber() {
@@ -37,15 +31,15 @@ public:
 		std::cout << "Fraction object is being destroyed." << std::endl;
 	}
 
-
+	//Method for adding fractions
 	FractionNumber add(const FractionNumber& otherFraction) const {
 		int resultNum = *numerator * (*otherFraction.denominator) + (*otherFraction.numerator) * *denominator;
 		int resultDenom = *denominator * (*otherFraction.denominator);
 		FractionNumber::operationsCount++;
 		return FractionNumber(resultNum, resultDenom);
 	}
-
-
+	
+	//Method for subtracting fractions
 	FractionNumber subtract(const FractionNumber& otherFraction) const {
 		int resultNum = *numerator * (*otherFraction.denominator) - (*otherFraction.numerator) * *denominator;
 		int resultDenom = *denominator * (*otherFraction.denominator);
@@ -53,7 +47,7 @@ public:
 		return FractionNumber(resultNum, resultDenom);
 	}
 
-
+	//Method for multiplying fractions
 	FractionNumber multiply(const FractionNumber& otherFraction) const {
 		int resultNum = *numerator * (*otherFraction.numerator);
 		int resultDenom = *denominator * (*otherFraction.denominator);
@@ -61,7 +55,7 @@ public:
 		return FractionNumber(resultNum, resultDenom);
 	}
 
-
+	//Method for dividing fractions
 	FractionNumber divide(const FractionNumber& otherFraction) const {
 		if (*otherFraction.numerator == 0) {
 			throw std::invalid_argument("Division by zero.");
@@ -71,27 +65,28 @@ public:
 		FractionNumber::operationsCount++;
 		return FractionNumber(resultNum, resultDenom);
 	}
-
-
+	
+	//Method for displaying fractions on the screen
 	void display() const {
 		std::cout << *numerator << "/" << *denominator << std::endl;
 	}
 
-
+	//Operation counter
 	static void displayCount() {
 		std::cout << "Number of Fraction objects created: " << operationsCount << std::endl;
 	}
 
-	//LR2
-
+	//Overloading the fraction addition operator
 	FractionNumber operator+(const FractionNumber& otherFraction) const {
 		return add(otherFraction);
 	}
 
+	//Overloading the fraction subtraction operator
 	FractionNumber operator-(const FractionNumber& otherFraction) const {
 		return subtract(otherFraction);
 	}
 
+	//Overloading the operator for adding a number with a fraction
 	friend FractionNumber operator+(int value, const FractionNumber& otherFraction) {
 		int resultNum = value * (*otherFraction.denominator) + *otherFraction.numerator;
 		int resultDenom = *otherFraction.denominator;
@@ -99,6 +94,7 @@ public:
 		return FractionNumber(resultNum, resultDenom);
 	}
 
+	//Overloading the operator to subtract a number with a fraction
 	friend FractionNumber operator-(int value, const FractionNumber& otherFraction) {
 		int resultNum = value * (*otherFraction.denominator) - *otherFraction.numerator;
 		int resultDenom = *otherFraction.denominator;
@@ -106,10 +102,12 @@ public:
 		return FractionNumber(resultNum, resultDenom);
 	}
 
+	//Overloading the float cast
 	operator float() const {
 		return static_cast<float>(*numerator) / static_cast<float>(*denominator); //static_cast - преобразователь числового типа
 	}
 
+	//Assignment operator overloading
 	FractionNumber& operator=(const FractionNumber& otherFraction) {
 		if (this != &otherFraction) { //делаем проверку чтобы оператор объект не присваивался сам себе, если этого не происходит, то мы освобождаем память, чтобы не потерять ссылки на уже выделенные участки памяти.
 			delete numerator;
@@ -121,14 +119,12 @@ public:
 		return *this;
 	}
 
-	//LR 3
-	// 
-	//Перегрузка оператора вывода
+	//Output operator overloading
 	friend std::ostream& operator<< (std::ostream& os, const FractionNumber& otherFraction) {
 		os << *otherFraction.numerator << "/" << *otherFraction.denominator << std::endl;
 		return os;
 	}
-	//Перегрузка оператора ввода
+	//Input operator overloading
 	friend std::istream& operator>> (std::istream& is, FractionNumber& otherFraction) {
 		int num, denom;
 		char slash;
@@ -141,7 +137,7 @@ public:
 		return is;
 	}
 
-	//Сохранение в файл
+	//Save to file
 	void saveToFile(const std::string& filename) const {
 		std::ofstream file(filename);
 		if (file.is_open()) {
@@ -154,7 +150,7 @@ public:
 		}
 	}
 
-	//Чтение из файла
+	//Load from file
 	void loadFromFile(const std::string& filename) {
 		std::ifstream file(filename);
 		if (file.is_open()) {
@@ -173,7 +169,7 @@ public:
 		}
 	}
 
-	//Сохранение в двоичный файл
+	//Save to binary file
 	void saveToBinaryFile(const std::string& filename) const {
 		std::ofstream file(filename, std::ios::binary);
 		if (file.is_open()) {
@@ -187,7 +183,7 @@ public:
 		}
 	}
 
-	//Загрузка из двоичного файла
+	//Load from binary file
 	void loadFromBinaryFile(const std::string& filename) {
 		std::ifstream file(filename, std::ios::binary);
 		if (file.is_open()) {
@@ -202,10 +198,7 @@ public:
 
 };
 
-int FractionNumber::operationsCount = 0;
-
-
-// Производный класс CalculatedFraction
+// Derived class CalculatedFraction
 class CalculatedFraction : public FractionNumber {
 private:
 	float result;
@@ -223,7 +216,7 @@ public:
 	}
 };
 
-// Производный класс MixedFraction
+// Derived class MixedFraction
 class MixedFraction : public FractionNumber {
 private:
 	int wholePart;

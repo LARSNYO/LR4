@@ -1,4 +1,5 @@
 ﻿#include "include.h"
+int FractionNumber::operationsCount = 0;
 
 int main() {
 
